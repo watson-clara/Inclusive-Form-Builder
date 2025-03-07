@@ -1,6 +1,6 @@
-<div class="container py-5">
+<div class="container py-5 fade-in sign-in-form">
   <div class="row justify-content-center">
-    <div class="col-md-6">
+    <div class="col-md-6-">
       <div class="card shadow">
         <div class="card-header bg-primary text-white">
           <h1 class="h4 mb-0">Sign Up</h1>
@@ -18,27 +18,27 @@
               </div>
             <% end %>
             
-            <div class="mb-3">
+            <div class="mb-3 select-form-padding">
               <%= f.label :name, class: "form-label" %>
               <%= f.text_field :name, class: "form-control", required: true, autofocus: true %>
             </div>
             
-            <div class="mb-3">
+            <div class="mb-3 select-form-padding">
               <%= f.label :email, class: "form-label" %>
               <%= f.email_field :email, class: "form-control", required: true %>
             </div>
             
-            <div class="mb-3">
+            <div class="mb-3 select-form-padding">
               <%= f.label :password, class: "form-label" %>
               <%= f.password_field :password, class: "form-control", required: true %>
             </div>
             
-            <div class="mb-3">
+            <div class="mb-3 select-form-padding">
               <%= f.label :password_confirmation, "Confirm Password", class: "form-label" %>
               <%= f.password_field :password_confirmation, class: "form-control", required: true %>
             </div>
             
-            <div class="mb-3">
+              <div class="mb-3 select-form-padding">
               <%= f.label :preferred_language, class: "form-label" %>
               <%= f.select :preferred_language, 
                           options_for_select([['English', 'en'], ['Spanish', 'es'], ['French', 'fr']]), 

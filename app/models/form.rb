@@ -3,7 +3,12 @@ class Form < ApplicationRecord
   has_many :form_fields, -> { order(position: :asc) }, dependent: :destroy
   has_many :form_submissions, dependent: :destroy
   
+  accepts_nested_attributes_for :form_fields, allow_destroy: true
+  
   validates :title, presence: true
+  validates :description, length: { maximum: 1000 }
+  
+  scope :active, -> { where(active: true) }
   
   def translated_title(language = I18n.locale.to_s)
     return title if language == 'en' || translations.blank?

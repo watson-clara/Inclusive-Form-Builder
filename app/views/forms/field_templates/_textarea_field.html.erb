@@ -1,0 +1,41 @@
+<div class="form-field-item" data-field-type="textarea">
+  <div class="form-field-header">
+    <div class="form-field-type">
+      <i class="fas fa-paragraph"></i>
+      <span>Long Text</span>
+    </div>
+    <div class="form-field-actions">
+      <button type="button" class="field-action-btn edit" title="Edit field">
+        <i class="fas fa-pencil-alt"></i>
+      </button>
+      <button type="button" class="field-action-btn delete" title="Delete field" 
+              onclick="deleteField(this)">
+        <i class="fas fa-trash-alt"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="form-field-content">
+    <%= field.hidden_field :field_type, value: 'textarea' %>
+    <%= field.hidden_field :position %>
+    
+    <div class="form-group">
+      <%= field.label :label, class: "form-label" %>
+      <%= field.text_field :label, class: "form-control" %>
+    </div>
+
+    <div class="field-options textarea-options">
+      <div class="form-group">
+        <%= field.label :rows, "Number of rows", class: "form-label" %>
+        <%= field.number_field :rows, class: "form-control", min: 2, max: 10, value: 3 %>
+      </div>
+    </div>
+
+    <div class="form-group mb-0">
+      <div class="form-check">
+        <%= field.check_box :required, class: "form-check-input" %>
+        <%= field.label :required, "This field is required", class: "form-check-label" %>
+      </div>
+    </div>
+  </div>
+</div> 

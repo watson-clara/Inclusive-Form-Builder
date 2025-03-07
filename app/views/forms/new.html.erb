@@ -1,31 +1,219 @@
-<div class="container py-5">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card">
-        <div class="card-header">
-          <h1 class="h4 mb-0">
-            <i class="fas fa-plus-circle me-2"></i>
-            Create New Form
-          </h1>
+<div class="container form-builder-container py-5">
+  <div class="text-center mb-4 ">
+    <h1 class="display-6">Create New Form</h1>
+    <p class="text-muted">Design your form by adding fields and customizing settings</p>
+  </div>
+
+  <div class="card mb-4">
+    <%= form_with(model: @form, local: true) do |f| %>
+      <div class="form-group">
+        <%= f.label :title, class: "form-label" %>
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="fas fa-heading"></i>
+          </span>
+          <%= f.text_field :title, class: "form-control", required: true, autofocus: true, 
+              placeholder: "Enter form title" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :description, class: "form-label" %>
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="fas fa-align-left"></i>
+          </span>
+          <%= f.text_area :description, class: "form-control", rows: 3, 
+              placeholder: "Add a description to help people understand the purpose of this form" %>
+        </div>
+      </div>
+
+      <div class="form-fields-section">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2 class="h5 mb-0">Form Fields</h2>
+          <div class="field-type-buttons btn-space-bottom">
+            <button type="button" 
+                    class="btn btn-outline-primary btn-sm me-2" 
+                    onclick="addField(this)"
+                    data-field-type="text">
+              <i class="fas fa-font me-1"></i>Text Field
+            </button>
+            <button type="button" 
+                    class="btn btn-outline-primary btn-sm me-2" 
+                    onclick="addField(this)"
+                    data-field-type="textarea">
+              <i class="fas fa-paragraph me-1"></i>Long Text
+            </button>
+            <button type="button" 
+                    class="btn btn-outline-primary btn-sm me-2" 
+                    onclick="addField(this)"
+                    data-field-type="select">
+              <i class="fas fa-list me-1"></i>Select
+            </button>
+            <button type="button" 
+                    class="btn btn-outline-primary btn-sm me-2" 
+                    onclick="addField(this)"
+                    data-field-type="radio">
+              <i class="fas fa-dot-circle me-1"></i>Radio Buttons
+            </button>
+            <button type="button" 
+                    class="btn btn-outline-primary btn-sm" 
+                    onclick="addField(this)"
+                    data-field-type="checkbox">
+              <i class="fas fa-check-square me-1"></i>Checkboxes
+            </button>
+          </div>
         </div>
 
-        <div class="card-body">
-          <%= form_with(model: @form, local: true) do |f| %>
-            <div class="form-group">
-              <%= f.label :title, class: "form-label" %>
-              <%= f.text_field :title, class: "form-control", required: true, autofocus: true %>
-            </div>
+        <div id="form-fields" class="form-fields-list">
+          <div class="empty-state">
+            <i class="fas fa-layer-group mb-3"></i>
+            <p>Start building your form by adding fields</p>
+          </div>
+        </div>
+      </div>
 
-            <div class="form-group">
-              <%= f.label :description, class: "form-label" %>
-              <%= f.text_area :description, class: "form-control", rows: 3 %>
-            </div>
+      <div class="form-footer mt-4">
+        <div class="form-check mb-3">
+          <%= f.check_box :active, class: "form-check-input" %>
+          <%= f.label :active, "Make this form active", class: "form-check-label" %>
+          <div class="text-muted small mt-1">
+            Active forms can be filled out by patients. Inactive forms are only visible to you.
+          </div>
+        </div>
 
-            <div class="d-flex justify-content-end gap-2">
-              <%= link_to "Cancel", forms_path, class: "btn btn-light" %>
-              <%= f.submit "Create Form", class: "btn btn-primary" %>
-            </div>
+        <div class="d-flex justify-content-end gap-3">
+          <%= link_to forms_path, class: "btn btn-light btn-space-top btn-space-right" do %>
+            <i class="fas fa-times me-2"></i>Cancel
           <% end %>
+          <%= button_tag type: 'submit', class: "btn btn-primary" do %>
+            <i class="fas fa-check me-2"></i>Create Form
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Field Template -->
+  <template id="field-template">
+    <%= fields_for :form, @form do |f| %>
+      <%= f.fields_for :form_fields, FormField.new, child_index: "NEW_RECORD" do |field| %>
+        <div class="form-field-item" data-field-type="FIELD_TYPE">
+          <div class="form-field-header">
+            <div class="form-field-type">
+              <i class="fas fa-question"></i>
+              <span>FIELD_TYPE</span>
+            </div>
+            <div class="form-field-actions">
+              <button type="button" class="field-action-btn edit" title="Edit field">
+                <i class="fas fa-pencil-alt"></i>
+              </button>
+              <button type="button" class="field-action-btn delete" title="Delete field" 
+                      onclick="deleteField(this)">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-field-content">
+            <%= field.hidden_field :field_type, value: 'FIELD_TYPE' %>
+            <%= field.hidden_field :position %>
+            
+            <div class="form-group">
+              <%= field.label :label, class: "form-label" %>
+              <%= field.text_field :label, class: "form-control" %>
+            </div>
+
+            <!-- Field preview -->
+            <div class="field-preview mt-3 mb-3">
+              <!-- Preview will be inserted here by JavaScript -->
+            </div>
+
+            <!-- Text field specific options -->
+            <div class="field-options text-options">
+              <div class="form-group">
+                <%= field.label :placeholder, class: "form-label" %>
+                <%= field.text_field :placeholder, class: "form-control" %>
+              </div>
+            </div>
+
+            <!-- Textarea specific options -->
+            <div class="field-options textarea-options">
+              <div class="form-group">
+                <%= field.label :rows, "Number of rows", class: "form-label" %>
+                <%= field.number_field :rows, class: "form-control", min: 2, max: 10, value: 3 %>
+              </div>
+            </div>
+
+            <!-- Select/Radio/Checkbox specific options -->
+            <div class="field-options choice-options">
+              <div class="form-group">
+                <label class="form-label">Choices</label>
+                <div class="choices-container">
+                  <div class="choice-item">
+                    <div class="input-group mb-2">
+                      <input type="text" 
+                             name="form[form_fields_attributes][NEW_RECORD][options][choices][]" 
+                             class="form-control" 
+                             placeholder="Enter choice"
+                             onchange="updatePreview(this)">
+                      <button type="button" 
+                              class="btn btn-outline-danger" 
+                              onclick="removeChoice(this)">
+                        <i class="fas fa-times"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <button type="button" 
+                        class="btn btn-outline-primary btn-sm mt-2" 
+                        onclick="addChoice(this)">
+                  <i class="fas fa-plus me-1"></i>Add Choice
+                </button>
+              </div>
+
+              <!-- Multiple selection option -->
+              <div class="form-check mt-3 multiple-option">
+                <%= field.check_box :multiple, class: "form-check-input" %>
+                <%= field.label :multiple, "Allow multiple selections", class: "form-check-label" %>
+              </div>
+            </div>
+
+            <div class="form-group mb-0">
+              <div class="form-check">
+                <%= field.check_box :required, class: "form-check-input" %>
+                <%= field.label :required, "This field is required", class: "form-check-label" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </template>
+
+  <!-- Add Field Modal -->
+  <div class="modal fade" id="addFieldModal" tabindex="-1" aria-labelledby="addFieldModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addFieldModalLabel">Choose Field Type</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="field-types">
+            <% FormField::FIELD_TYPES.each do |type| %>
+              <button type="button" 
+                      class="field-type-btn" 
+                      data-action="click->form-builder#addField" 
+                      data-field-type="<%= type %>">
+                <i class="fas <%= field_type_icon(type) %>"></i>
+                <div class="field-type-content">
+                  <span><%= type.titleize %></span>
+                  <small class="field-type-description"><%= field_type_description(type) %></small>
+                </div>
+              </button>
+            <% end %>
+          </div>
         </div>
       </div>
     </div>

@@ -1,0 +1,68 @@
+<div class="form-field-item" data-field-type="checkbox">
+  <div class="form-field-header">
+    <div class="form-field-type">
+      <i class="fas fa-check-square"></i>
+      <span>Checkboxes</span>
+    </div>
+    <div class="form-field-actions">
+      <button type="button" class="field-action-btn edit" title="Edit field">
+        <i class="fas fa-pencil-alt"></i>
+      </button>
+      <button type="button" class="field-action-btn delete" title="Delete field" 
+              data-action="click->form-builder#deleteField">
+        <i class="fas fa-trash-alt"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="form-field-content">
+    <%= field.hidden_field :field_type, value: 'checkbox' %>
+    <%= field.hidden_field :position %>
+    
+    <div class="form-group">
+      <%= field.label :label, class: "form-label" %>
+      <%= field.text_field :label, class: "form-control" %>
+    </div>
+
+    <div class="field-preview mt-3 mb-3">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" disabled>
+        <label class="form-check-label">Checkbox option</label>
+      </div>
+    </div>
+
+    <div class="field-options choice-options">
+      <div class="form-group">
+        <label class="form-label">Choices</label>
+        <div class="choices-container">
+          <div class="choice-item">
+            <div class="input-group mb-2">
+              <input type="text" 
+                     name="form[form_fields_attributes][NEW_RECORD][options][choices][]" 
+                     class="form-control" 
+                     placeholder="Enter choice">
+              <button type="button" class="btn btn-outline-danger" data-action="click->form-builder#removeChoice">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn btn-outline-primary btn-sm mt-2" data-action="click->form-builder#addChoice">
+          <i class="fas fa-plus me-1"></i>Add Choice
+        </button>
+      </div>
+
+      <div class="form-check mt-3 multiple-option">
+        <%= field.check_box :multiple, class: "form-check-input" %>
+        <%= field.label :multiple, "Allow multiple selections", class: "form-check-label" %>
+      </div>
+    </div>
+
+    <div class="form-group mb-0">
+      <div class="form-check">
+        <%= field.check_box :required, class: "form-check-input" %>
+        <%= field.label :required, "This field is required", class: "form-check-label" %>
+      </div>
+    </div>
+  </div>
+</div> 

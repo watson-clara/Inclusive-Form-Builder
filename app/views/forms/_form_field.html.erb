@@ -1,0 +1,42 @@
+<div class="form-field-item" data-field-id="<%= f.object.id %>">
+  <div class="form-field-header">
+    <div class="form-field-type">
+      <i class="fas <%= field_type_icon(f.object.field_type) %>"></i>
+      <span><%= f.object.field_type&.titleize || 'Field' %></span>
+    </div>
+    <div class="form-field-actions">
+      <button type="button" class="field-action-btn edit" title="Edit field">
+        <i class="fas fa-pencil-alt"></i>
+      </button>
+      <button type="button" class="field-action-btn delete" title="Delete field" 
+              data-action="form-builder#deleteField">
+        <i class="fas fa-trash-alt"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="form-field-content">
+    <%= f.hidden_field :field_type %>
+    <%= f.hidden_field :position %>
+    
+    <div class="form-group">
+      <%= f.label :label, class: "form-label" %>
+      <%= f.text_field :label, class: "form-control" %>
+    </div>
+
+    <% if f.object.field_type.in?(%w[select radio checkbox]) %>
+      <div class="form-group">
+        <%= f.label :options, "Choices", class: "form-label" %>
+        <%= f.text_area :options, class: "form-control", 
+            placeholder: "Enter one choice per line", rows: 3 %>
+      </div>
+    <% end %>
+
+    <div class="form-group mb-0">
+      <div class="form-check">
+        <%= f.check_box :required, class: "form-check-input" %>
+        <%= f.label :required, "This field is required", class: "form-check-label" %>
+      </div>
+    </div>
+  </div>
+</div> 

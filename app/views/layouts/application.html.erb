@@ -22,6 +22,9 @@
     <%= javascript_importmap_tags %>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/@hotwired/stimulus@3.2.2/dist/stimulus.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
   </head>
 
   <body>
@@ -75,5 +78,98 @@
       
       <%= yield %>
     </div>
+
+    <script>
+      console.log("Page loaded")
+    </script>
+    <script>
+      // Initialize Stimulus
+      (function() {
+        console.log("Initializing Stimulus...")
+        const application = window.Stimulus.Application.start()
+        console.log("Stimulus application started:", application)
+        
+        application.register("form-builder", class extends window.Stimulus.Controller {
+          static targets = ["fields", "template"]
+          
+          connect() {
+            console.log("Form builder connected")
+            console.log("Fields target:", this.hasFieldsTarget ? this.fieldsTarget : "missing")
+            console.log("Template target:", this.hasTemplateTarget ? this.templateTarget : "missing")
+          }
+          
+          addField(event) {
+            console.log("Add field clicked", event)
+            event.preventDefault()
+            
+            const button = event.currentTarget
+            console.log("Button:", button)
+            console.log("Button dataset:", button.dataset)
+            
+            const fieldType = button.dataset.fieldType
+            console.log("Field type:", fieldType)
+            
+            if (!this.hasTemplateTarget) {
+              console.error("Template target missing!")
+              return
+            }
+            
+            if (!this.hasFieldsTarget) {
+              console.error("Fields target missing!")
+              return
+            }
+            
+            try {
+              const template = this.templateTarget.innerHTML
+              console.log("Template content:", template)
+              
+              const newField = template
+                .replace(/NEW_RECORD/g, new Date().getTime())
+                .replace(/FIELD_TYPE/g, fieldType)
+              
+              console.log("New field HTML:", newField)
+              this.fieldsTarget.insertAdjacentHTML('beforeend', newField)
+              console.log("Field added successfully")
+              
+              // Remove empty state if it exists
+              const emptyState = this.fieldsTarget.querySelector('.empty-state')
+              if (emptyState) {
+                emptyState.remove()
+              }
+              
+              // Close modal
+              const modal = document.getElementById('addFieldModal')
+              const bsModal = bootstrap.Modal.getInstance(modal)
+              if (bsModal) {
+                bsModal.hide()
+              }
+            } catch (error) {
+              console.error("Error adding field:", error)
+            }
+          }
+          
+          deleteField(event) {
+            console.log("Delete field clicked", event)
+            const field = event.target.closest('.form-field-item')
+            field.remove()
+            
+            if (this.hasFieldsTarget && this.fieldsTarget.children.length === 0) {
+              const emptyStateHTML = `
+                <div class="empty-state">
+                  <i class="fas fa-layer-group mb-3"></i>
+                  <p>Start building your form by adding fields</p>
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFieldModal">
+                    <i class="fas fa-plus me-2"></i>Add Your First Field
+                  </button>
+                </div>
+              `
+              this.fieldsTarget.innerHTML = emptyStateHTML
+            }
+          }
+        })
+        console.log("Form builder controller registered")
+      })()
+    </script>
+    <%= javascript_include_tag "form_builder" %>
   </body>
 </html>

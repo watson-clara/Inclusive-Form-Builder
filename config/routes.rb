@@ -41,4 +41,6 @@ Rails.application.routes.draw do
   end
   
   get '/change_language/:language', to: 'application#change_language', as: :change_language
+
+  get 'forms/field_templates/:type', to: 'forms#field_template'
 end

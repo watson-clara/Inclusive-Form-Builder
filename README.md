@@ -4,47 +4,107 @@ A customizable form-building tool designed for healthcare providers to collect p
 
 ## Features
 
-- **Accessible Form Creation**: Build forms that follow WCAG 2.1 guidelines
-- **Multilingual Support**: Automatic translation of form fields and instructions
-- **Customizable Fields**: Various field types including text, select, checkbox, radio, date, etc.
-- **Responsive Design**: Works on all devices using Bootstrap
-- **Form Management**: Create, edit, preview, and manage form submissions
+- **Accessible Form Creation**
+  - WCAG 2.1 compliant forms (in progress)
+  - Screen reader friendly
+  - Keyboard navigation support
+  - Clear error messages
+  - Help text for form fields
+
+- **Multilingual Support** (in progress)
+  - Automatic translation of form fields
+  - Support for multiple languages including:
+    - English
+    - Spanish
+    - French
+  - Language preference settings for users
+
+- **Form Field Types**
+  - Text input
+  - Text area
+  - Select dropdown
+  - Radio buttons
+  - Checkboxes
+
+- **Form Management**
+  - Create and edit forms
+  - Preview forms
+  - Track form submissions
+  - Form status management (active/inactive)
 
 ## Technical Stack
 
-- Ruby on Rails
-- PostgreSQL
-- Bootstrap 5
-- jQuery
+- **Backend**
+  - Ruby 3.2
+  - Rails 8.0
+  - PostgreSQL database
+
+- **Frontend**
+  - Bootstrap 5
+  - Stimulus.js
+  - Hotwire/Turbo
+  - Font Awesome icons
 
 ## Getting Started
 
-1. Clone the repository
-2. Install dependencies: `bundle install`
-3. Set up the database: `rails db:create db:migrate db:seed`
-4. Start the server: `rails server`
-5. Visit http://localhost:3000 in your browser
+1. **Prerequisites**
+   ```bash
+   ruby 3.2.0
+   postgresql
+   ```
+
+2. **Installation**
+   ```bash
+   # Clone the repository
+   git clone https://github.com/yourusername/inclusive-form-builder.git
+   cd inclusive-form-builder
+
+   # Install dependencies
+   bundle install
+
+   # Setup database
+   rails db:create db:migrate db:seed
+   ```
+
+3. **Running the Application**
+   ```bash
+   # Start the Rails server
+   rails server
+   ```
+
+4. Visit `http://localhost:3000` in your browser
 
 ## Sample Accounts
 
-The seed data includes the following accounts for testing:
+The seed data includes these test accounts:
 
-- **Admin**: admin@example.com / password
-- **Provider**: provider@example.com / password
-- **Patient**: patient@example.com / password
+| Role     | Email               | Password |
+|----------|---------------------|----------|
+| Admin    | admin@example.com   | password |
+| Provider | provider@example.com| password |
+| Patient  | patient@example.com | password |
 
-## Accessibility Features
+## Accessibility Features (in progress)
 
-- ARIA attributes for screen readers
+- ARIA labels and descriptions
+- Semantic HTML structure
 - Keyboard navigation support
-- High contrast mode
 - Clear error messages
-- Help text for form fields
+- Form field help text
 
-## Multilingual Support
+## Multilingual Support (in progress)
 
-Forms can be translated into multiple languages including:
-- English
+Forms can be translated into multiple languages:
+- English (default)
 - Spanish
 - French
-- And more...
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE.md file for details
+
+## Acknowledgments
+
+- Bootstrap for the UI framework
+- Font Awesome for icons
+- The Rails community for inspiration and support

@@ -1,13 +1,21 @@
 class FormField < ApplicationRecord
   belongs_to :form
   
-  FIELD_TYPES = %w(text_field text_area select checkbox radio date email number phone file)
+  FIELD_TYPES = %w[text textarea select radio checkbox]
   
   validates :field_type, presence: true, inclusion: { in: FIELD_TYPES }
-  validates :label, presence: true
+  validates :label, presence: true, on: :update  # Only require label when saving
   validates :position, presence: true
   
   before_validation :set_position, on: :create
+  
+  # Store choices in options JSON column
+  store_accessor :options, :placeholder, :rows, :choices, :multiple
+  
+  # Initialize empty choices array
+  after_initialize do
+    self.choices ||= []
+  end
   
   def translated_label(language = I18n.locale.to_s)
     return label if language == 'en' || translations.blank?
@@ -45,6 +53,6 @@ class FormField < ApplicationRecord
   private
   
   def set_position
-    self.position ||= (form.form_fields.maximum(:position) || 0) + 1
+    self.position ||= (form&.form_fields&.maximum(:position) || -1) + 1
   end
 end 

@@ -4,7 +4,7 @@ class FormsController < ApplicationController
   before_action :authorize_form, only: [:edit, :update, :destroy]
   
   def index
-    @forms = current_user.provider? ? Form.all : current_user.forms
+    @forms = current_user.forms
   end
   
   def show
@@ -17,12 +17,12 @@ class FormsController < ApplicationController
   end
   
   def create
-    @form = current_user.forms.new(form_params)
+    @form = current_user.forms.build(form_params)
     
     if @form.save
-      redirect_to @form, notice: 'Form was successfully created.'
+      redirect_to forms_path, notice: 'Form was successfully created.'
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
   
@@ -58,6 +58,14 @@ class FormsController < ApplicationController
     end
   end
   
+  def field_template
+    @field = FormField.new
+    template = params[:type].underscore
+    render partial: "forms/field_templates/#{template}_field", 
+           locals: { field: @field }, 
+           layout: false
+  end
+  
   private
   
   def set_form
@@ -71,6 +79,19 @@ class FormsController < ApplicationController
   end
   
   def form_params
-    params.require(:form).permit(:title, :description, :active)
+    params.require(:form).permit(
+      :title, 
+      :description, 
+      :active,
+      form_fields_attributes: [
+        :id, 
+        :field_type, 
+        :label, 
+        :required, 
+        :options, 
+        :position, 
+        :_destroy
+      ]
+    )
   end
 end 
