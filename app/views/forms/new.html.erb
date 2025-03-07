@@ -101,8 +101,8 @@
         <div class="form-field-item" data-field-type="FIELD_TYPE">
           <div class="form-field-header">
             <div class="form-field-type">
-              <i class="fas fa-question"></i>
-              <span>FIELD_TYPE</span>
+              <i class="fas fa-TYPE_ICON"></i>
+              <span>TYPE_LABEL</span>
             </div>
             <div class="form-field-actions">
               <button type="button" class="field-action-btn edit" title="Edit field">
@@ -115,74 +115,99 @@
             </div>
           </div>
 
-          <div class="form-field-content">
-            <%= field.hidden_field :field_type, value: 'FIELD_TYPE' %>
-            <%= field.hidden_field :position %>
-            
-            <div class="form-group">
-              <%= field.label :label, class: "form-label" %>
-              <%= field.text_field :label, class: "form-control" %>
-            </div>
-
-            <!-- Field preview -->
-            <div class="field-preview mt-3 mb-3">
-              <!-- Preview will be inserted here by JavaScript -->
-            </div>
-
-            <!-- Text field specific options -->
-            <div class="field-options text-options">
+          <div class="field-content-wrapper">
+            <div class="field-configuration">
+              <%= field.hidden_field :field_type, value: 'FIELD_TYPE' %>
+              <%= field.hidden_field :position %>
+              
               <div class="form-group">
-                <%= field.label :placeholder, class: "form-label" %>
-                <%= field.text_field :placeholder, class: "form-control" %>
+                <%= field.label :label, "Field Label *", class: "form-label" %>
+                <%= field.text_field :label, class: "form-control", placeholder: "Enter field label" %>
               </div>
-            </div>
 
-            <!-- Textarea specific options -->
-            <div class="field-options textarea-options">
-              <div class="form-group">
-                <%= field.label :rows, "Number of rows", class: "form-label" %>
-                <%= field.number_field :rows, class: "form-control", min: 2, max: 10, value: 3 %>
+              <!-- Text field specific options -->
+              <div class="field-options text-options">
+                <div class="form-group">
+                  <%= field.label :placeholder, class: "form-label" %>
+                  <%= field.text_field :placeholder, class: "form-control" %>
+                </div>
               </div>
-            </div>
 
-            <!-- Select/Radio/Checkbox specific options -->
-            <div class="field-options choice-options">
-              <div class="form-group">
-                <label class="form-label">Choices</label>
-                <div class="choices-container">
-                  <div class="choice-item">
-                    <div class="input-group mb-2">
-                      <input type="text" 
-                             name="form[form_fields_attributes][NEW_RECORD][options][choices][]" 
-                             class="form-control" 
-                             placeholder="Enter choice"
-                             onchange="updatePreview(this)">
-                      <button type="button" 
-                              class="btn btn-outline-danger" 
-                              onclick="removeChoice(this)">
-                        <i class="fas fa-times"></i>
-                      </button>
+              <!-- Textarea specific options -->
+              <div class="field-options textarea-options">
+                <div class="form-group">
+                  <%= field.label :rows, "Number of rows", class: "form-label" %>
+                  <%= field.number_field :rows, class: "form-control", min: 2, max: 10, value: 3 %>
+                </div>
+              </div>
+
+              <!-- Select options -->
+              <div class="field-options select-options">
+                <div class="form-group">
+                  <label class="form-label">Choices</label>
+                  <div class="choices-container">
+                    <div class="choice-item">
+                      <div class="input-group mb-2">
+                        <input type="text" 
+                               name="form[form_fields_attributes][NEW_RECORD][options][choices][]" 
+                               class="form-control" 
+                               placeholder="Enter choice">
+                        <button type="button" 
+                                class="btn btn-outline-danger" 
+                                onclick="removeChoice(this)">
+                          <i class="fas fa-times"></i>
+                        </button>
+                      </div>
                     </div>
                   </div>
+                  <button type="button" 
+                          class="btn btn-outline-primary btn-sm mt-2" 
+                          onclick="addChoice(this)">
+                    <i class="fas fa-plus me-1"></i>Add Choice
+                  </button>
                 </div>
-                <button type="button" 
-                        class="btn btn-outline-primary btn-sm mt-2" 
-                        onclick="addChoice(this)">
-                  <i class="fas fa-plus me-1"></i>Add Choice
-                </button>
               </div>
 
-              <!-- Multiple selection option -->
-              <div class="form-check mt-3 multiple-option">
-                <%= field.check_box :multiple, class: "form-check-input" %>
-                <%= field.label :multiple, "Allow multiple selections", class: "form-check-label" %>
+              <!-- Radio options -->
+              <div class="field-options radio-options">
+                <div class="form-group">
+                  <label class="form-label">Choices</label>
+                  <div class="choices-container">
+                  </div>
+                  <button type="button" 
+                          class="btn btn-outline-primary btn-sm mt-2" 
+                          onclick="addChoice(this)">
+                    <i class="fas fa-plus me-1"></i>Add Choice
+                  </button>
+                </div>
+              </div>
+
+              <!-- Checkbox options -->
+              <div class="field-options checkbox-options">
+                <div class="form-group">
+                  <label class="form-label">Choices</label>
+                  <div class="choices-container">
+                  </div>
+                  <button type="button" 
+                          class="btn btn-outline-primary btn-sm mt-2" 
+                          onclick="addChoice(this)">
+                    <i class="fas fa-plus me-1"></i>Add Choice
+                  </button>
+                </div>
+              </div>
+
+              <div class="form-group mb-0">
+                <div class="form-check">
+                  <%= field.check_box :required, class: "form-check-input" %>
+                  <%= field.label :required, "This field is required", class: "form-check-label" %>
+                </div>
               </div>
             </div>
 
-            <div class="form-group mb-0">
-              <div class="form-check">
-                <%= field.check_box :required, class: "form-check-input" %>
-                <%= field.label :required, "This field is required", class: "form-check-label" %>
+            <div class="field-preview">
+              <div class="preview-header">Preview</div>
+              <div class="preview-content">
+                <!-- Preview content will be dynamically updated -->
               </div>
             </div>
           </div>

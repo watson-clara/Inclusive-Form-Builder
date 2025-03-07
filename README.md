@@ -1,6 +1,17 @@
 # Inclusive Form Builder
 
-A customizable form-building tool designed for healthcare providers to collect patient information with accessibility and multilingual support.
+A user-friendly form builder focused on accessibility and inclusivity.
+
+## Status
+🚧 This project is still being actively developed and debugged. Major features like the form preview functionality are being refined.
+
+## Features (In Progress)
+- Drag-and-drop form building
+- Multiple field types (text, textarea, select, radio, checkbox)
+- Real-time preview
+- Accessibility-first design
+- Form validation
+- Response collection
 
 ## Features
 
@@ -56,7 +67,7 @@ A customizable form-building tool designed for healthcare providers to collect p
 2. **Installation**
    ```bash
    # Clone the repository
-   git clone https://github.com/yourusername/inclusive-form-builder.git
+   git clone https://github.com/watson-clara/inclusive-form-builder.git
    cd inclusive-form-builder
 
    # Install dependencies
@@ -108,3 +119,6 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 - Bootstrap for the UI framework
 - Font Awesome for icons
 - The Rails community for inspiration and support
+
+## Contributing
+As this is an active work in progress, please feel free to open issues for bugs or feature requests.

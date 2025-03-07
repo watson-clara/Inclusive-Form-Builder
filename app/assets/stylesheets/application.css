@@ -171,7 +171,7 @@ body {
 }
 
 .form-label {
-  display: block;
+  
   font-weight: 500;
   margin-bottom: 0.75rem;
   color: var(--text-dark);
@@ -698,7 +698,7 @@ body {
 .field-type-description {
   color: var(--text-muted);
   font-size: 0.875rem;
-  display: block;
+ 
   margin: 0;
 }
 
@@ -711,10 +711,7 @@ body {
   margin-bottom: 1rem;
 }
 
-/* Only show form fields when parent has has-fields class */
-.form-fields-list.has-fields .form-field-item {
-  display: block;
-}
+
 
 /* Hide empty state when there are fields */
 .form-fields-list.has-fields .empty-state {
@@ -774,9 +771,7 @@ body {
   background-color: var(--bg-light);
 }
 
-.modal.show {
-  display: block;
-}
+
 
 .modal-dialog {
   max-width: 600px;
@@ -828,8 +823,6 @@ body {
 }
 
 .form-fields-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   gap: 1rem;
 }
 
@@ -846,21 +839,68 @@ body {
 }
 
 .field-preview {
+  display: inline-block;
+  vertical-align: top;
+  width: 48%;
   padding: 1rem;
   background-color: var(--bg-light);
-  border: 1px dashed var(--border-color);
-  border-radius: 0.75rem;
+  border-radius: 8px;
+  min-height: 200px;
 }
 
-.field-preview input,
-.field-preview textarea,
-.field-preview select {
-  pointer-events: none;
-  background-color: white !important;
+.preview-label {
+  display: block;
+  color: #666;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 1rem;
 }
 
-.field-preview .form-check {
+.preview-content {
+  display: block;
+  width: 100%;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+}
+
+/* Preview form styling to look like a real form */
+.preview-content .form-group {
+  margin-bottom: 1rem;
+}
+
+.preview-content .form-label {
+  display: block;
+  font-weight: 500;
   margin-bottom: 0.5rem;
+  color: var(--text-dark);
+}
+
+.preview-content .form-control,
+.preview-content .form-select {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 0.375rem;
+  opacity: 0.8;
+}
+
+.preview-content .form-check {
+  display: block;
+  min-height: 1.5rem;
+  padding-left: 1.5em;
+  margin-bottom: 0.5rem;
+}
+
+.preview-content .form-check-input {
+  float: left;
+  margin-left: -1.5em;
 }
 
 /* Form field type visibility */
@@ -868,19 +908,9 @@ body {
   display: none;
 }
 
-.form-field-item[data-field-type="text"] .text-options,
-.form-field-item[data-field-type="textarea"] .textarea-options,
-.form-field-item[data-field-type="select"] .choice-options,
-.form-field-item[data-field-type="radio"] .choice-options,
-.form-field-item[data-field-type="checkbox"] .choice-options {
-  display: block;
-}
 
-/* Only show multiple option for select and checkbox */
-.form-field-item[data-field-type="select"] .multiple-option,
-.form-field-item[data-field-type="checkbox"] .multiple-option {
-  display: block;
-}
+
+
 
 /* Field type buttons */
 .field-type-buttons {
@@ -915,4 +945,24 @@ body {
     flex-direction: column;
     align-items: center;
   }
+}
+
+.field-configuration, .field-preview {
+  display: inline-block;
+  vertical-align: top;
+  width: 48%;
+}
+
+.field-content-wrapper {
+  font-size: 0; /* Fix inline-block spacing */
+}
+
+.field-configuration {
+  margin-right: 4%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }

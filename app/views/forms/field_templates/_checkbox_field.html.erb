@@ -9,7 +9,7 @@
         <i class="fas fa-pencil-alt"></i>
       </button>
       <button type="button" class="field-action-btn delete" title="Delete field" 
-              data-action="click->form-builder#deleteField">
+              onclick="deleteField(this)">
         <i class="fas fa-trash-alt"></i>
       </button>
     </div>
@@ -24,13 +24,6 @@
       <%= field.text_field :label, class: "form-control" %>
     </div>
 
-    <div class="field-preview mt-3 mb-3">
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" disabled>
-        <label class="form-check-label">Checkbox option</label>
-      </div>
-    </div>
-
     <div class="field-options choice-options">
       <div class="form-group">
         <label class="form-label">Choices</label>
@@ -41,20 +34,19 @@
                      name="form[form_fields_attributes][NEW_RECORD][options][choices][]" 
                      class="form-control" 
                      placeholder="Enter choice">
-              <button type="button" class="btn btn-outline-danger" data-action="click->form-builder#removeChoice">
+              <button type="button" 
+                      class="btn btn-outline-danger" 
+                      onclick="removeChoice(this)">
                 <i class="fas fa-times"></i>
               </button>
             </div>
           </div>
         </div>
-        <button type="button" class="btn btn-outline-primary btn-sm mt-2" data-action="click->form-builder#addChoice">
+        <button type="button" 
+                class="btn btn-outline-primary btn-sm mt-2" 
+                onclick="addChoice(this)">
           <i class="fas fa-plus me-1"></i>Add Choice
         </button>
-      </div>
-
-      <div class="form-check mt-3 multiple-option">
-        <%= field.check_box :multiple, class: "form-check-input" %>
-        <%= field.label :multiple, "Allow multiple selections", class: "form-check-label" %>
       </div>
     </div>
 
