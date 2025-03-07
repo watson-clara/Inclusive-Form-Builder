@@ -1,0 +1,59 @@
+<div class="container py-5 fade-in">
+  <div class="text-center mb-4">
+    <h1 class="display-6">Welcome Back</h1>
+    <p class="text-muted">Sign in to your account to continue</p>
+  </div>
+
+  <% if alert %>
+    <div class="alert alert-danger" role="alert">
+      <i class="fas fa-exclamation-circle"></i>
+      <%= alert %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% end %>
+
+  <div class="card">
+    <%= form_with(url: session_path, local: true) do |f| %>
+      <div class="form-group">
+        <%= f.label :email, class: "form-label" %>
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="fas fa-envelope"></i>
+          </span>
+          <%= f.email_field :email, class: "form-control", required: true, autofocus: true, placeholder: "your@email.com" %>
+        </div>
+        <% if flash[:email_error] %>
+          <div class="error-message">
+            <i class="fas fa-exclamation-circle"></i>
+            <%= flash[:email_error] %>
+          </div>
+        <% end %>
+      </div>
+      
+      <div class="form-group">
+        <%= f.label :password, class: "form-label" %>
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="fas fa-lock"></i>
+          </span>
+          <%= f.password_field :password, class: "form-control", required: true, placeholder: "••••••••" %>
+        </div>
+        <% if flash[:password_error] %>
+          <div class="error-message">
+            <i class="fas fa-exclamation-circle"></i>
+            <%= flash[:password_error] %>
+          </div>
+        <% end %>
+      </div>
+      
+      <%= f.submit "Sign In", class: "btn btn-primary" %>
+    <% end %>
+
+    <div class="card-footer">
+      <p class="text-muted mb-0">
+        Don't have an account? 
+        <%= link_to "Sign Up", new_user_path, class: "text-primary" %>
+      </p>
+    </div>
+  </div>
+</div> 

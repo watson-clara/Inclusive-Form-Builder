@@ -1,0 +1,83 @@
+<div class="container py-5 fade-in">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="text-center mb-5">
+        <h1 class="display-4">Inclusive Form Builder</h1>
+        <p class="lead">Create accessible, multilingual forms for healthcare providers</p>
+      </div>
+
+      <% if user_signed_in? %>
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-primary text-white">
+            <h2 class="h5 mb-0"><i class="fas fa-clipboard-list me-2"></i>Your Forms</h2>
+          </div>
+          <div class="card-body">
+            <% if @forms.any? %>
+              <div class="list-group">
+                <% @forms.each do |form| %>
+                  <%= link_to form_path(form), class: "list-group-item list-group-item-action d-flex justify-content-between align-items-center" do %>
+                    <div>
+                      <h3 class="h6 mb-1"><%= form.title %></h3>
+                      <small class="text-muted"><i class="fas fa-file-alt me-1"></i><%= pluralize(form.form_submissions.count, 'submission') %></small>
+                    </div>
+                    <span class="badge <%= form.active? ? 'bg-success' : 'bg-secondary' %> rounded-pill">
+                      <%= form.active? ? 'Active' : 'Inactive' %>
+                    </span>
+                  <% end %>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="text-center py-4">
+                <i class="fas fa-clipboard fa-3x text-muted mb-3"></i>
+                <p class="mb-0">You don't have any forms yet.</p>
+              </div>
+            <% end %>
+          </div>
+          <div class="card-footer bg-light">
+            <%= link_to new_form_path, class: "btn btn-primary" do %>
+              <i class="fas fa-plus me-2"></i>Create New Form
+            <% end %>
+          </div>
+        </div>
+      <% else %>
+        <div class="row">
+          <div class="col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+              <div class="card-body text-center p-4">
+                <i class="fas fa-universal-access fa-3x text-primary mb-3"></i>
+                <h2 class="h4 mb-3">Accessibility First</h2>
+                <p class="mb-0">Forms follow WCAG 2.1 guidelines to ensure usability for people with disabilities.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+              <div class="card-body text-center p-4">
+                <i class="fas fa-language fa-3x text-primary mb-3"></i>
+                <h2 class="h4 mb-3">Multilingual Support</h2>
+                <p class="mb-0">Automatic translation capabilities for form fields and instructions.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card shadow-sm">
+          <div class="card-body text-center">
+            <h2 class="h4 mb-4">Welcome to Inclusive Form Builder</h2>
+            <p class="mb-4">Create accessible, multilingual forms for healthcare providers and patients.</p>
+            <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-md-3">
+              <%= link_to new_session_path, class: "btn btn-primary btn-lg" do %>
+                <i class="fas fa-sign-in-alt"></i>
+                <span>Sign In</span>
+              <% end %>
+              <%= link_to new_user_path, class: "btn btn-outline-primary btn-lg" do %>
+                <i class="fas fa-user-plus"></i>
+                <span>Sign Up</span>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div> 

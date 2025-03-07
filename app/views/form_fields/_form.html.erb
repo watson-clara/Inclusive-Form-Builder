@@ -1,0 +1,109 @@
+<div class="card shadow-sm">
+  <div class="card-body">
+    <%= form_with(model: [@form, form_field], local: true, class: "needs-validation", data: { controller: "field-options" }) do |f| %>
+      <% if form_field.errors.any? %>
+        <div class="alert alert-danger" role="alert" aria-labelledby="field-errors-heading">
+          <h2 id="field-errors-heading" class="h6"><%= pluralize(form_field.errors.count, "error") %> prevented this field from being saved:</h2>
+          <ul>
+            <% form_field.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="mb-3">
+        <%= f.label :field_type, class: "form-label" %>
+        <%= f.select :field_type, FormField::FIELD_TYPES.map { |type| [type.humanize, type] }, 
+                    { include_blank: "Select field type" }, 
+                    { class: "form-select", required: true, 
+                      data: { action: "change->field-options#toggleOptions" },
+                      aria: { required: true, describedby: "field-type-help" } } %>
+        <div id="field-type-help" class="form-text">The type of input field to display.</div>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :label, class: "form-label" %>
+        <%= f.text_field :label, class: "form-control", required: true,
+                         aria: { required: true } %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :description, class: "form-label" %>
+        <%= f.text_area :description, class: "form-control", rows: 2,
+                        aria: { describedby: "description-help" } %>
+        <div id="description-help" class="form-text">Additional instructions for this field.</div>
+      </div>
+
+      <div class="mb-3 form-check">
+        <%= f.check_box :required, class: "form-check-input" %>
+        <%= f.label :required, class: "form-check-label" %>
+      </div>
+
+      <div class="card mb-3 d-none" data-field-options-target="choicesCard">
+        <div class="card-header bg-light">
+          <h3 class="h6 mb-0">Choices</h3>
+        </div>
+        <div class="card-body" data-field-options-target="choicesContainer">
+          <template data-field-options-target="choiceTemplate">
+            <div class="row mb-2 align-items-center choice-row">
+              <div class="col">
+                <input type="text" name="form_field[options][choices][{{index}}]" class="form-control" placeholder="Option text" />
+              </div>
+              <div class="col-auto">
+                <button type="button" class="btn btn-sm btn-outline-danger" data-action="click->field-options#removeChoice">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>
+          </template>
+          
+          <% if form_field.options&.dig('choices').present? %>
+            <% form_field.options['choices'].each_with_index do |(key, value), index| %>
+              <div class="row mb-2 align-items-center choice-row">
+                <div class="col">
+                  <input type="text" name="form_field[options][choices][<%= key %>]" value="<%= value %>" class="form-control" />
+                </div>
+                <div class="col-auto">
+                  <button type="button" class="btn btn-sm btn-outline-danger" data-action="click->field-options#removeChoice">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+        <div class="card-footer bg-light">
+          <button type="button" class="btn btn-sm btn-outline-primary" data-action="click->field-options#addChoice">
+            Add Choice
+          </button>
+        </div>
+      </div>
+
+      <h3 class="h5 mt-4 mb-3">Accessibility Options</h3>
+      
+      <div class="mb-3">
+        <%= f.fields_for :accessibility_attributes do |a| %>
+          <div class="mb-3">
+            <%= a.label :aria_label, "ARIA Label", class: "form-label" %>
+            <%= a.text_field :aria_label, value: form_field.accessibility_attributes&.dig('aria_label'), 
+                            class: "form-control", aria: { describedby: "aria-label-help" } %>
+            <div id="aria-label-help" class="form-text">Alternative label for screen readers.</div>
+          </div>
+          
+          <div class="mb-3">
+            <%= a.label :help_text, "Help Text", class: "form-label" %>
+            <%= a.text_area :help_text, value: form_field.accessibility_attributes&.dig('help_text'), 
+                           class: "form-control", rows: 2, aria: { describedby: "help-text-desc" } %>
+            <div id="help-text-desc" class="form-text">Additional instructions that will be read by screen readers.</div>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <%= link_to "Cancel", edit_form_path(@form), class: "btn btn-outline-secondary me-md-2" %>
+        <%= f.submit class: "btn btn-primary", data: { disable_with: "Saving..." } %>
+      </div>
+    <% end %>
+  </div>
+</div> 
