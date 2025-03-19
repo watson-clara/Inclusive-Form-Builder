@@ -53,7 +53,7 @@ class FormFieldsController < ApplicationController
   end
   
   def authorize_form
-    unless current_user.admin? || @form.user_id == current_user.id
+    unless current_user.admin? || @form.user_id == current_user.id # checks if user has admin role permission and if they are the current form owner 
       redirect_to forms_path, alert: 'You are not authorized to perform this action.'
     end
   end
