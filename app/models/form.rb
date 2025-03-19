@@ -10,9 +10,9 @@ class Form < ApplicationRecord
   
   scope :active, -> { where(active: true) }
   
-  def translated_title(language = I18n.locale.to_s)
+  def translated_title(language = I18n.locale.to_s) # gives current language as string 'en' 'fr' etc
     return title if language == 'en' || translations.blank?
-    translations.dig(language, 'title') || title
+    translations.dig(language, 'title') || title # gets nested hash values if nil then return origional title
   end
   
   def translated_description(language = I18n.locale.to_s)
@@ -21,11 +21,11 @@ class Form < ApplicationRecord
   end
   
   def translate_to(target_language)
-    return if target_language == 'en'
+    return if target_language == 'en' # do nothing if english
     
-    translator = GoogleTranslate.new
+    translator = GoogleTranslate.new  # google translation api 
     
-    unless translations[target_language].present?
+    unless translations[target_language].present? # generate new translation if none exists 
       translations[target_language] = {
         'title' => translator.translate(title, to: target_language),
         'description' => translator.translate(description, to: target_language)
@@ -34,7 +34,7 @@ class Form < ApplicationRecord
     end
     
     form_fields.each do |field|
-      field.translate_to(target_language)
+      field.translate_to(target_language) # make sure all forms are translated 
     end
   end
 end 
